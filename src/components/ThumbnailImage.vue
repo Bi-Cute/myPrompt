@@ -1,7 +1,9 @@
 <template>
     <div
         class="thumbnail-image"
-        :style="thumbnailView ? { 'background-image': 'url(' + data[selectedIndex].src + ')' } : null">
+        :style="
+            thumbnailView ? { 'background-image': 'url(' + data[selectedIndex].src + ')' } : null
+        ">
         <div class="thumbnail-image__change-mode">
             <Switch
                 v-model="thumbnailView"
@@ -10,7 +12,7 @@
                     thumbnailView ? 'bg-indigo-600' : 'bg-gray-200',
                     'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2',
                 ]"
-                @click="thumbnailView ? thumbnailView = false : thumbnailView = true">
+                @click="thumbnailView ? (thumbnailView = false) : (thumbnailView = true)">
                 <span
                     aria-hidden="true"
                     :class="[
@@ -25,14 +27,18 @@
 
 <script>
 import { useImageDataStore } from '@/stores/imageData.js';
-import { ref, computed } from 'vue';
-import { Switch } from '@headlessui/vue'
+import { ref, computed, onMounted } from 'vue';
+import { Switch } from '@headlessui/vue';
 
 export default {
     setup() {
         const imageDataStore = useImageDataStore();
 
         const data = ref(imageDataStore.data);
+
+        onMounted(() => {
+            imageDataStore.selectedIndexReset();
+        });
 
         const selectedIndex = computed(() => {
             return imageDataStore.selectedIndex;
@@ -41,8 +47,10 @@ export default {
         return {
             data,
             selectedIndex,
-            Switch
         };
+    },
+    components: {
+        Switch,
     },
     data() {
         return {
