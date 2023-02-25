@@ -1,18 +1,39 @@
 <template>
-    <div class="thumbnail-image">
-
+    <div
+        class="thumbnail-image"
+        :style="{ 'background-image': 'url(' + data[selectedIndex].src + ')' }">
+        <div class="thumbnail-image__change-mode"></div>
+        <div class="thumbnail-image__info"></div>
     </div>
 </template>
 
 <script>
+import { useImageDataStore } from '@/stores/imageData.js';
+import { ref, computed } from 'vue';
 
+export default {
+    setup() {
+        const imageDataStore = useImageDataStore();
+
+        const data = ref(imageDataStore.data);
+
+        const selectedIndex = computed(() => {
+            return imageDataStore.selectedIndex;
+        });
+
+        return {
+            data,
+            selectedIndex,
+        };
+    },
+};
 </script>
 
 <style scoped>
 .thumbnail-image {
     width: 100%;
     height: 32rem;
-    border: 1px solid black;
+    border: 4px solid black;
     border-radius: 1rem;
     background-size: cover;
     background-position: center center;

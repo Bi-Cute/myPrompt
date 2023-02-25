@@ -17,7 +17,6 @@ import Introduction from './components/Introduction.vue';
         </div>
     </header>
 
-    
     <router-view></router-view>
 </template>
 
