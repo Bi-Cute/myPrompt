@@ -6,12 +6,14 @@
                     <h3 class="font-bold">{{ mode }} Prompt</h3>
                     <div class="flex justify-end gap-2 mb-2">
                         <button
-                            class="border py-1 px-4 rounded-lg bg-blue-600 text-white"
+                            class="border py-1 px-4 rounded-lg"
+                            :class="mode == 'Positive' ? 'bg-indigo-600 text-white' : null"
                             @click="mode = 'Positive'">
                             Positive
                         </button>
                         <button
-                            class="border py-1 px-4 rounded-lg bg-stone-800 text-white"
+                            class="border py-1 px-4 rounded-lg"
+                            :class="mode == 'Negative' ? 'bg-indigo-600 text-white' : null"
                             @click="mode = 'Negative'">
                             Negative
                         </button>
@@ -72,7 +74,6 @@
 
 <script>
 import { useImageDataStore } from '@/stores/imageData.js';
-import Checkbox from 'primevue/checkbox';
 
 export default {
     setup() {
