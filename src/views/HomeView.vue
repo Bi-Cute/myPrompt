@@ -6,8 +6,8 @@
         <TagCheckBox class="col-span-2" />
     </main>
     <div class="grid grid-cols-3 gap-4">
-        <TotalStatistics />
-        <TotalStatistics />
+        <PromptPositive />
+        <PromptNegative />
         <TotalStatistics />
     </div>
 </template>
@@ -18,6 +18,8 @@ import { ref } from 'vue';
 
 import ThumbnailImage from '../components/ThumbnailImage.vue';
 import TagCheckBox from '../components/TagCheckBox.vue';
+import PromptPositive from '../components/PromptPositive.vue';
+import PromptNegative from '../components/PromptNegative.vue';
 import TotalStatistics from '../components/TotalStatistics.vue';
 
 export default {
@@ -35,7 +37,9 @@ export default {
     components: {
         ThumbnailImage,
         TagCheckBox,
+        PromptPositive,
         TotalStatistics,
+        PromptNegative,
     },
 };
 </script>

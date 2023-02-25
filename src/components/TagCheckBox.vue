@@ -1,4 +1,5 @@
 <template>
+    <!-- {{ imageDataStore.positivePromptArr }} -->
     <div class="tag-check-box">
         <div class="w-full h-full overflow-auto relative">
             <div class="tag-check-box__header">
@@ -27,7 +28,7 @@
                     v-for="word in favoritePositiveWords"
                     :key="word"
                     class="tag-check-box__item"
-                    @click="toggleCheck(word)">
+                    @click="togglePositiveCheckBox(word)">
                     <div class="w-full h-full overflow-hidden">
                         <div class="flex justify-end mb-1 pointer">
                             <input
@@ -35,7 +36,7 @@
                                 :name="word"
                                 type="checkbox"
                                 class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                                :checked="positivePrompt.includes(word)" />
+                                :checked="imageDataStore.positivePromptArr.includes(word)" />
                         </div>
                         <div class="mr-4 text-sm">
                             <label :for="word" class="font-sm text-gray-700" @click.stop>
@@ -50,7 +51,7 @@
                     v-for="word in favoriteNegativeWords"
                     :key="word"
                     class="tag-check-box__item"
-                    @click="toggleCheck(word)">
+                    @click="toggleNegativeCheckBox(word)">
                     <div class="w-full h-full overflow-hidden">
                         <div class="flex justify-end mb-1 pointer">
                             <input
@@ -58,7 +59,7 @@
                                 :name="word"
                                 type="checkbox"
                                 class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                                :checked="positivePrompt.includes(word)" />
+                                :checked="imageDataStore.negativePromptArr.includes(word)" />
                         </div>
                         <div class="mr-4 text-sm">
                             <label :for="word" class="font-sm text-gray-700" @click.stop>
@@ -77,6 +78,7 @@ import { useImageDataStore } from '@/stores/imageData.js';
 
 export default {
     setup() {
+
         const { data } = useImageDataStore();
 
         // 각 prompt를 쉼표로 나눈 후, 쉼표 앞뒤에 공백을 제거한 뒤, 빈 문자열이 아닌 경우에만 배열에 추가합니다.
@@ -136,22 +138,22 @@ export default {
         const favoritePositiveWords = positiveSortedWords.slice(0, 28);
         const favoriteNegativeWords = negativeSortedWords.slice(0, 28);
 
-        return { favoritePositiveWords, favoriteNegativeWords };
+        // 프롬프트 배열 만들기
+        const imageDataStore = useImageDataStore();
+        const togglePositiveCheckBox = (word) => {
+            imageDataStore.inputPositivePrompt(word);
+        };
+        const toggleNegativeCheckBox = (word) => {
+            imageDataStore.inputNegativePrompt(word);
+        };
+
+
+        return { data, favoritePositiveWords, favoriteNegativeWords, imageDataStore, togglePositiveCheckBox, toggleNegativeCheckBox };
     },
     data() {
         return {
             mode: 'Positive',
-            positivePrompt: [],
         };
-    },
-    methods: {
-        toggleCheck(word) {
-            if (this.positivePrompt.includes(word)) {
-                this.positivePrompt.splice(this.positivePrompt.indexOf(word), 1);
-            } else {
-                this.positivePrompt.push(word);
-            }
-        },
     },
 };
 </script>

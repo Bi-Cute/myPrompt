@@ -3,6 +3,8 @@ import { defineStore } from 'pinia';
 export const useImageDataStore = defineStore('imageData', {
     state: () => ({
         version: '0.10.00',
+        positivePromptArr : [],
+        negativePromptArr : [],
         data: [
             {
                 no: 1, // Number,
@@ -67,6 +69,20 @@ export const useImageDataStore = defineStore('imageData', {
                 return;
             }
             this.selectedIndex--;
+        },
+        inputPositivePrompt(word) {
+            if (this.positivePromptArr.includes(word)) {
+                this.positivePromptArr.splice(this.positivePromptArr.indexOf(word), 1);
+            } else {
+                this.positivePromptArr.push(word);
+            }
+        },
+        inputNegativePrompt(word) {
+            if (this.negativePromptArr.includes(word)) {
+                this.negativePromptArr.splice(this.negativePromptArr.indexOf(word), 1);
+            } else {
+                this.negativePromptArr.push(word);
+            }
         },
     },
 });
