@@ -4,6 +4,15 @@
         :style="
             thumbnailView ? { 'background-image': 'url(' + data[selectedIndex].src + ')' } : null
         ">
+        <FullScreen
+            :imageUrl="imageUrl"
+            :show="showFullScreen"
+            @close="closeFullScreen"
+            @next="plusIndex"
+            @prev="minusIndex"
+            @shuffleIndex="shuffleIndex"
+            class="z-50" />
+
         <div class="thumbnail-image__change-mode">
             <Switch
                 v-model="thumbnailView"
@@ -12,7 +21,7 @@
                     thumbnailView ? 'bg-indigo-600' : 'bg-gray-200',
                     'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2',
                 ]"
-                @click="thumbnailView ? (thumbnailView = false) : (thumbnailView = true)">
+                @click.stop="thumbnailView ? (thumbnailView = false) : (thumbnailView = true)">
                 <span
                     aria-hidden="true"
                     :class="[
@@ -22,51 +31,55 @@
             </Switch>
         </div>
 
-        <div v-if="thumbnailView" class="thumbnail-image__change-button--right" @click="plusIndex">
-            <ChevronRightIcon class="w-8 h-16" />
-        </div>
-        <div v-if="thumbnailView" class="thumbnail-image__change-button--left" @click="minusIndex">
-            <ChevronLeftIcon class="w-8 h-16" />
-        </div>
+        <div
+            v-if="thumbnailView"
+            class="w-full h-full relative"
+            @click="openFullScreen(data[selectedIndex].src)">
+            <div class="thumbnail-image__change-button--right" @click.stop="plusIndex" @mousedown.prevent>
+                <ChevronRightIcon class="w-8 h-16" />
+            </div>
+            <div class="thumbnail-image__change-button--left" @click.stop="minusIndex" @mousedown.prevent>
+                <ChevronLeftIcon class="w-8 h-16" />
+            </div>
 
-        <div v-if="thumbnailView" class="thumbnail-image__info text-black relative">
-            <div class="absolute font-bold top-4 right-4">No. {{ data[selectedIndex].no }}</div>
-            <div class="font-bold">
-                <span class="text-zinc-600">SIZE:</span>
-                {{ data[selectedIndex].width }} x {{ data[selectedIndex].height }}
-            </div>
-            <div class="font-bold">
-                <span class="text-zinc-600">MODEL:</span>
-                {{ data[selectedIndex].model }}
-            </div>
-            <div class="font-bold">
-                <span class="text-zinc-600">METHOD:</span>
-                {{ data[selectedIndex].method }}
-            </div>
-            <div class="font-bold">
-                <span class="text-zinc-600">STPES:</span>
-                {{ data[selectedIndex].steps }} /
-                <span class="text-zinc-600">SCALE:</span>
-                {{ data[selectedIndex].scale }}
-            </div>
-            <div class="font-bold">
-                <span class="text-zinc-600">SEED:</span>
-                {{ data[selectedIndex].seed }}
-            </div>
-            <div class="font-bold">
-                <span class="text-zinc-600">CREATED:</span>
-                {{ data[selectedIndex].date }}
-            </div>
-            <div
-                class="thumbnail-image__change-button--suffle"
-                @click="shuffleIndex"
-                :class="{ rotate: isRotate }">
-                <transition name="rotate">
-                    <ArrowPathIcon class="w-4 h-4" />
-                </transition>
+            <div class="thumbnail-image__info text-black relative">
+                <div class="absolute font-bold top-4 right-4">No. {{ data[selectedIndex].no }}</div>
+                <div class="font-bold">
+                    <span class="text-zinc-600">SIZE:</span>
+                    {{ data[selectedIndex].width }} x {{ data[selectedIndex].height }}
+                </div>
+                <div class="font-bold">
+                    <span class="text-zinc-600">MODEL:</span>
+                    {{ data[selectedIndex].model }}
+                </div>
+                <div class="font-bold">
+                    <span class="text-zinc-600">METHOD:</span>
+                    {{ data[selectedIndex].method }}
+                </div>
+                <div class="font-bold">
+                    <span class="text-zinc-600">STPES:</span>
+                    {{ data[selectedIndex].steps }} /
+                    <span class="text-zinc-600">SCALE:</span>
+                    {{ data[selectedIndex].scale }}
+                </div>
+                <div class="font-bold">
+                    <span class="text-zinc-600">SEED:</span>
+                    {{ data[selectedIndex].seed }}
+                </div>
+                <div class="font-bold">
+                    <span class="text-zinc-600">CREATED:</span>
+                    {{ data[selectedIndex].date }}
+                </div>
+                <div
+                    class="thumbnail-image__change-button--suffle"
+                    @click.stop="shuffleIndex"
+                    :class="{ rotate: isRotate }">
+                    <transition name="rotate">
+                        <ArrowPathIcon class="w-4 h-4" />
+                    </transition>
+                </div>
             </div>
         </div>
-
         <!--  -->
         <div v-if="!thumbnailView" class="w-full p-4">
             <h3 class="text-2xl font-bold mb-2">information</h3>
@@ -74,13 +87,13 @@
                 <div
                     class="text-lg font-bold cursor-pointer"
                     :class="information == 'Positive' ? 'selectedInfo' : null"
-                    @click="toggleInformation('Positive')">
+                    @click.stop="toggleInformation('Positive')">
                     Prompt
                 </div>
                 <div
                     class="text-lg font-bold cursor-pointer"
                     :class="information == 'Negative' ? 'selectedInfo' : null"
-                    @click="toggleInformation('Negative')">
+                    @click.stop="toggleInformation('Negative')">
                     Negative Prompt
                 </div>
             </div>
@@ -103,6 +116,7 @@ import { ChevronRightIcon } from '@heroicons/vue/24/outline';
 import { ChevronLeftIcon } from '@heroicons/vue/24/outline';
 import { ArrowPathIcon } from '@heroicons/vue/24/outline';
 import Toast from '@/components/Toast.vue';
+import FullScreen from '@/components/FullScreen.vue';
 
 export default {
     setup() {
@@ -124,6 +138,7 @@ export default {
             imageDataStore.plusSelectedIndex();
         };
         const shuffleIndex = () => {
+            console.log('testsgas')
             imageDataStore.suffleSelectedIndex();
         };
 
@@ -141,6 +156,7 @@ export default {
         ChevronLeftIcon,
         ArrowPathIcon,
         Toast,
+        FullScreen,
     },
     data() {
         return {
@@ -151,7 +167,13 @@ export default {
             toastTitle: 'SUCCESS',
             toastDescription: '클립보드에 복사하였습니다.',
             timeoutId: null,
+            showFullScreen: false,
         };
+    },
+    computed: {
+        imageUrl() {
+            return this.data[this.selectedIndex].src
+        }
     },
     methods: {
         toggleInformation(mode) {
@@ -178,6 +200,12 @@ export default {
             this.timeoutId = setTimeout(() => {
                 this.toastShow = false;
             }, 3000);
+        },
+        openFullScreen(url) {
+            this.showFullScreen = true;
+        },
+        closeFullScreen() {
+            this.showFullScreen = false;
         },
     },
 };

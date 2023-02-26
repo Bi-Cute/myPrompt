@@ -40,12 +40,15 @@
                 <!-- Positive Prompt -->
                 <div
                     v-if="mode == 'Positive'"
-                    v-for="word in favoritePositiveWords"
+                    v-for="(word, index) in favoritePositiveWords"
                     :key="word"
                     class="tag-check-box__item"
                     @click="togglePositiveCheckBox(word)">
                     <div class="w-full h-full overflow-hidden">
-                        <div class="flex justify-end mb-1 pointer">
+                        <div class="flex justify-between mb-1 pointer">
+                            <div class="text-xs text-gray-400">
+                                No. {{ (index + 1).toString().padStart(3, '0') }}
+                            </div>
                             <input
                                 :id="word"
                                 :name="word"
@@ -63,12 +66,15 @@
                 <!-- Negative Prompt -->
                 <div
                     v-if="mode == 'Negative'"
-                    v-for="word in favoriteNegativeWords"
+                    v-for="(word, index) in favoriteNegativeWords"
                     :key="word"
                     class="tag-check-box__item"
                     @click="toggleNegativeCheckBox(word)">
                     <div class="w-full h-full overflow-hidden">
-                        <div class="flex justify-end mb-1 pointer">
+                        <div class="flex justify-between mb-1 pointer">
+                            <div class="text-xs text-gray-400">
+                                No. {{ (index + 1).toString().padStart(3, '0') }}
+                            </div>
                             <input
                                 :id="word"
                                 :name="word"
@@ -149,8 +155,8 @@ export default {
         );
 
         // 정렬된 단어를 이용하여 새로운 배열을 만듭니다.
-        const favoritePositiveWords = positiveSortedWords.slice(0, 28);
-        const favoriteNegativeWords = negativeSortedWords.slice(0, 28);
+        const favoritePositiveWords = positiveSortedWords.slice(0, 100);
+        const favoriteNegativeWords = negativeSortedWords.slice(0, 100);
 
         // 프롬프트 배열 만들기
         const imageDataStore = useImageDataStore();
@@ -217,9 +223,8 @@ export default {
 }
 @media screen and (min-width: 768px) {
     .tag-check-box {
-    width: 100%;
-    height: 32rem;
+        width: 100%;
+        height: 32rem;
     }
 }
-
 </style>
