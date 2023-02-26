@@ -172,7 +172,7 @@ export default {
         },
         triggerToast(title, desc) {
             this.toastTitle = title;
-            this.toastDescription = desc
+            this.toastDescription = desc;
             this.toastShow = true;
             clearTimeout(this.timeoutId);
             this.timeoutId = setTimeout(() => {
@@ -186,7 +186,7 @@ export default {
 <style scoped>
 .thumbnail-image {
     width: 100%;
-    height: 32rem;
+    height: 40rem;
     border: 4px solid black;
     border-radius: 1rem;
     background-size: cover;
@@ -270,5 +270,11 @@ export default {
 
 .selectedInfo {
     color: blueviolet;
+}
+
+@media screen and (min-width: 768px) {
+    .thumbnail-image {
+        height: 32rem;
+    }
 }
 </style>

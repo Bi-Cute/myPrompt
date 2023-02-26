@@ -36,7 +36,7 @@
                     </div>
                 </div>
             </div>
-            <div class="w-full h-auto grid grid-cols-4 overflow-auto relative border-none px-4 mb-4">
+            <div class="tag-check-box__prompt-words-container">
                 <!-- Positive Prompt -->
                 <div
                     v-if="mode == 'Positive'"
@@ -89,7 +89,7 @@
 </template>
 
 <script>
-import { useImageDataStore } from '@/stores/imageData.js';
+import { useImageDataStore } from '@/stores/imageDataStore.js';
 
 export default {
     setup() {
@@ -185,10 +185,9 @@ export default {
 <style scoped>
 .tag-check-box {
     width: 100%;
-    height: 32rem;
+    height: 40rem;
     border: 4px solid black;
     border-radius: 1rem;
-    /* padding: 1rem; */
 }
 
 .tag-check-box__item {
@@ -199,6 +198,28 @@ export default {
     padding: 0.5rem;
     cursor: pointer;
 }
-
+.tag-check-box__prompt-words-container {
+    width: 100%;
+    height: auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    overflow: auto;
+    position: relative;
+    border: none;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    margin-bottom: 1rem;
+}
+@media screen and (min-width: 640px) {
+    .tag-check-box__prompt-words-container {
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
+}
+@media screen and (min-width: 768px) {
+    .tag-check-box {
+    width: 100%;
+    height: 32rem;
+    }
+}
 
 </style>

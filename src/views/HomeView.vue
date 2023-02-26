@@ -3,7 +3,7 @@
         <ThumbnailImage />
         <TagCheckBox class="col-span-2" />
     </main>
-    <div class="statistics-section grid grid-cols-3 gap-4">
+    <div class="statistics-section">
         <PromptPositive />
         <PromptNegative />
         <TotalStatistics />
@@ -38,6 +38,7 @@ export default {
 .statistics-section {
     display: flex;
     flex-direction: column;
+    gap: 1rem;
 }
 
 @media screen and (min-width: 768px) {

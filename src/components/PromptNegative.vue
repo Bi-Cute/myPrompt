@@ -78,7 +78,7 @@ export default {
 <style scoped>
 .prompt-negative {
     width: 100%;
-    height: 12rem;
+    min-height: 12rem;
     border: 4px solid black;
     border-radius: 1rem;
     overflow: hidden;
