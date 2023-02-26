@@ -1,13 +1,13 @@
 <template>
     <div
-        class="thumbnail-image"
+        class="thumbnail-image overflow-hidden"
         :style="
             thumbnailView ? { 'background-image': 'url(' + data[selectedIndex].src + ')' } : null
         ">
         <div class="thumbnail-image__change-mode">
             <Switch
                 v-model="thumbnailView"
-                class="mbnail-image__change-mode"
+                class="mbnail-image__change-mode z-40"
                 :class="[
                     thumbnailView ? 'bg-indigo-600' : 'bg-gray-200',
                     'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2',
@@ -22,10 +22,10 @@
             </Switch>
         </div>
 
-        <div class="thumbnail-image__change-button--right" @click="plusIndex">
+        <div v-if="thumbnailView" class="thumbnail-image__change-button--right" @click="plusIndex">
             <ChevronRightIcon class="w-8 h-16" />
         </div>
-        <div class="thumbnail-image__change-button--left" @click="minusIndex">
+        <div v-if="thumbnailView" class="thumbnail-image__change-button--left" @click="minusIndex">
             <ChevronLeftIcon class="w-8 h-16" />
         </div>
 
@@ -66,16 +66,43 @@
                 </transition>
             </div>
         </div>
+
+        <!--  -->
+        <div v-if="!thumbnailView" class="w-full p-4">
+            <h3 class="text-2xl font-bold mb-2">information</h3>
+            <div class="flex justify-between mb-4 text-gray-400">
+                <div
+                    class="text-lg font-bold cursor-pointer"
+                    :class="information == 'Positive' ? 'selectedInfo' : null"
+                    @click="toggleInformation('Positive')">
+                    Prompt
+                </div>
+                <div
+                    class="text-lg font-bold cursor-pointer"
+                    :class="information == 'Negative' ? 'selectedInfo' : null"
+                    @click="toggleInformation('Negative')">
+                    Negative Prompt
+                </div>
+            </div>
+            <div class="information__prompt relative">
+                <div v-if="information == 'Positive'">{{ data[selectedIndex].prompt }}</div>
+                <div v-if="information == 'Negative'">{{ data[selectedIndex].negative }}</div>
+            </div>
+        </div>
     </div>
+    <Transition name="fade">
+        <Toast v-if="toastShow" :title="toastTitle" :description="toastDescription" />
+    </Transition>
 </template>
 
 <script>
-import { useImageDataStore } from '@/stores/imageData.js';
+import { useImageDataStore } from '@/stores/imageDataStore.js';
 import { ref, computed, onMounted } from 'vue';
 import { Switch } from '@headlessui/vue';
 import { ChevronRightIcon } from '@heroicons/vue/24/outline';
 import { ChevronLeftIcon } from '@heroicons/vue/24/outline';
 import { ArrowPathIcon } from '@heroicons/vue/24/outline';
+import Toast from '@/components/Toast.vue';
 
 export default {
     setup() {
@@ -99,6 +126,7 @@ export default {
         const shuffleIndex = () => {
             imageDataStore.suffleSelectedIndex();
         };
+
         return {
             data,
             selectedIndex,
@@ -112,12 +140,45 @@ export default {
         ChevronRightIcon,
         ChevronLeftIcon,
         ArrowPathIcon,
+        Toast,
     },
     data() {
         return {
             thumbnailView: true,
             isRotate: false,
+            information: 'Positive',
+            toastShow: false,
+            toastTitle: 'SUCCESS',
+            toastDescription: '클립보드에 복사하였습니다.',
+            timeoutId: null,
         };
+    },
+    methods: {
+        toggleInformation(mode) {
+            if (this.information == mode) {
+                switch (mode) {
+                    case 'Positive':
+                        navigator.clipboard.writeText(this.data[this.selectedIndex].prompt);
+                        this.triggerToast('SUCCESS', 'Positive Prompt가 클립보드에 저장되었습니다');
+                        break;
+                    case 'Negative':
+                        navigator.clipboard.writeText(this.data[this.selectedIndex].negative);
+                        this.triggerToast('SUCCESS', 'Negative Prompt가 클립보드에 저장되었습니다');
+                        break;
+                }
+                return;
+            }
+            this.information = mode;
+        },
+        triggerToast(title, desc) {
+            this.toastTitle = title;
+            this.toastDescription = desc
+            this.toastShow = true;
+            clearTimeout(this.timeoutId);
+            this.timeoutId = setTimeout(() => {
+                this.toastShow = false;
+            }, 3000);
+        },
     },
 };
 </script>
@@ -131,6 +192,7 @@ export default {
     background-size: cover;
     background-position: center center;
     position: relative;
+    /* overflow: hidden; */
 }
 .thumbnail-image__change-mode {
     position: absolute;
@@ -199,5 +261,14 @@ export default {
 }
 .rotate-enter-to {
     transform: rotate(360deg);
+}
+.information__prompt {
+    width: 100%;
+    height: 24rem;
+    overflow: auto;
+}
+
+.selectedInfo {
+    color: blueviolet;
 }
 </style>

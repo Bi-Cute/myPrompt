@@ -1,9 +1,8 @@
 <template>
-    <!-- {{ imageDataStore.positivePromptArr }} -->
     <div class="tag-check-box">
-        <div class="w-full h-full overflow-auto relative">
+        <div class="w-full h-full flex flex-col relative">
             <div class="tag-check-box__header">
-                <div class="flex justify-between mb-2">
+                <div class="flex justify-between p-4">
                     <h3 class="font-bold text-red">
                         Most used
                         <span
@@ -37,7 +36,7 @@
                     </div>
                 </div>
             </div>
-            <div class="w-full grid grid-cols-4 overflow-auto relative border-none">
+            <div class="w-full h-auto grid grid-cols-4 overflow-auto relative border-none px-4 mb-4">
                 <!-- Positive Prompt -->
                 <div
                     v-if="mode == 'Positive'"
@@ -189,14 +188,7 @@ export default {
     height: 32rem;
     border: 4px solid black;
     border-radius: 1rem;
-    padding: 1rem;
-}
-.tag-check-box__header {
-    position: sticky;
-    top: 0;
-    z-index: 10;
-    background-color: white;
-    border-bottom: 1px solid gray;
+    /* padding: 1rem; */
 }
 
 .tag-check-box__item {
@@ -207,4 +199,6 @@ export default {
     padding: 0.5rem;
     cursor: pointer;
 }
+
+
 </style>

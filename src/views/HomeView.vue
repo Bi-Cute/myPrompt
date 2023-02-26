@@ -1,9 +1,9 @@
 <template>
-    <main class="grid grid-cols-3 gap-4 mb-4">
+    <main class="main-section">
         <ThumbnailImage />
         <TagCheckBox class="col-span-2" />
     </main>
-    <div class="grid grid-cols-3 gap-4">
+    <div class="statistics-section grid grid-cols-3 gap-4">
         <PromptPositive />
         <PromptNegative />
         <TotalStatistics />
@@ -27,3 +27,27 @@ export default {
     },
 };
 </script>
+
+<style>
+.main-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+.statistics-section {
+    display: flex;
+    flex-direction: column;
+}
+
+@media screen and (min-width: 768px) {
+    .main-section {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+    .statistics-section {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+}
+</style>
