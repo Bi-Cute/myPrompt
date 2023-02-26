@@ -5,19 +5,28 @@
             <div class="tag-check-box__header">
                 <div class="mb-2">
                     <h3 class="font-bold">{{ mode }} Prompt</h3>
-                    <div class="flex justify-end gap-2 mb-2">
-                        <button
-                            class="border py-1 px-4 rounded-lg"
-                            :class="mode == 'Positive' ? 'bg-indigo-600 text-white' : null"
-                            @click="mode = 'Positive'">
-                            Positive
-                        </button>
-                        <button
-                            class="border py-1 px-4 rounded-lg"
-                            :class="mode == 'Negative' ? 'bg-indigo-600 text-white' : null"
-                            @click="mode = 'Negative'">
-                            Negative
-                        </button>
+                    <div class="flex justify-end gap-12">
+                        <div class="flex mb-2">
+                            <button
+                                class="border py-1 px-4 rounded-lg text-red-600 border-red-500"
+                                @click="clearPrompt">
+                                Clear
+                            </button>
+                        </div>
+                        <div class="flex gap-2 mb-2">
+                            <button
+                                class="border py-1 px-4 rounded-lg"
+                                :class="mode == 'Positive' ? 'bg-indigo-600 text-white' : null"
+                                @click="mode = 'Positive'">
+                                Positive
+                            </button>
+                            <button
+                                class="border py-1 px-4 rounded-lg"
+                                :class="mode == 'Negative' ? 'bg-indigo-600 text-white' : null"
+                                @click="mode = 'Negative'">
+                                Negative
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -78,7 +87,6 @@ import { useImageDataStore } from '@/stores/imageData.js';
 
 export default {
     setup() {
-
         const { data } = useImageDataStore();
 
         // 각 prompt를 쉼표로 나눈 후, 쉼표 앞뒤에 공백을 제거한 뒤, 빈 문자열이 아닌 경우에만 배열에 추가합니다.
@@ -140,15 +148,25 @@ export default {
 
         // 프롬프트 배열 만들기
         const imageDataStore = useImageDataStore();
-        const togglePositiveCheckBox = (word) => {
+        const togglePositiveCheckBox = word => {
             imageDataStore.inputPositivePrompt(word);
         };
-        const toggleNegativeCheckBox = (word) => {
+        const toggleNegativeCheckBox = word => {
             imageDataStore.inputNegativePrompt(word);
         };
+        const clearPrompt = () => {
+            imageDataStore.clearPrompt();
+        };
 
-
-        return { data, favoritePositiveWords, favoriteNegativeWords, imageDataStore, togglePositiveCheckBox, toggleNegativeCheckBox };
+        return {
+            data,
+            favoritePositiveWords,
+            favoriteNegativeWords,
+            imageDataStore,
+            togglePositiveCheckBox,
+            toggleNegativeCheckBox,
+            clearPrompt,
+        };
     },
     data() {
         return {
