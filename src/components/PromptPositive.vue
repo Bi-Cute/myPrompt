@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import { useImageDataStore } from '@/stores/imageData.js';
+import { useImageDataStore } from '@/stores/imageDataStore.js';
 import { computed, ref } from 'vue';
 import Toast from '@/components/Toast.vue';
 

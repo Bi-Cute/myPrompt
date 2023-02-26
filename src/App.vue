@@ -5,7 +5,7 @@ import { RouterLink, RouterView } from 'vue-router';
 <template>
     <header class="mb-4">
         <div class="w-full flex justify-between">
-            <h1 class="text-3xl font-bold">My Prompt</h1>
+            <h1 class="text-3xl font-bold cursor-pointer" @click="$router.push('/')">My Prompt</h1>
             <img alt="site logo" class="w-10 h-10" src="@/assets/logo.png" />
         </div>
 

@@ -25,7 +25,7 @@
                     </div>
                     <div class="sm:col-span-1">
                         <dt class="text-sm font-medium text-gray-500">Version</dt>
-                        <dd class="mt-1 text-sm text-gray-900"> {{ data.version }}</dd>
+                        <dd class="mt-1 text-sm text-gray-900">{{ imageDataStore.version }}</dd>
                     </div>
                 </dl>
             </div>
@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import { useImageDataStore } from '@/stores/imageData.js';
+import { useImageDataStore } from '@/stores/imageDataStore.js';
 import { ref, computed } from 'vue';
 
 export default {
@@ -58,6 +58,7 @@ export default {
             data,
             totalSize,
             getTotalImageSize,
+            imageDataStore
         };
     },
 
