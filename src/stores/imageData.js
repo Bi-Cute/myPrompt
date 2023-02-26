@@ -70,6 +70,13 @@ export const useImageDataStore = defineStore('imageData', {
             }
             this.selectedIndex--;
         },
+        suffleSelectedIndex() {
+            let newIndex = Math.floor(Math.random() * this.data.length);
+            while (newIndex === this.selectedIndex) {
+                newIndex = Math.floor(Math.random() * this.data.length);
+            }
+            this.selectedIndex = newIndex;
+        },
         inputPositivePrompt(word) {
             if (this.positivePromptArr.includes(word)) {
                 this.positivePromptArr.splice(this.positivePromptArr.indexOf(word), 1);
