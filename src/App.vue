@@ -1,7 +1,6 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router';
 import Introduction from './components/Introduction.vue';
-import Notifications from './components/Notifications.vue';
 </script>
 
 <template>
@@ -10,16 +9,12 @@ import Notifications from './components/Notifications.vue';
 
         <div class="wrapper">
             <Introduction msg="My Prompt" />
-
             <nav>
                 <RouterLink to="/">Home</RouterLink>
                 <RouterLink to="/about">About</RouterLink>
             </nav>
         </div>
     </header>
-
-    <Notifications />
-
     <router-view></router-view>
 </template>
 

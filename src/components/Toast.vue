@@ -2,7 +2,7 @@
     <!-- 전역 알림 라이브 영역, 문서 끝에서 영구적으로 렌더링 -->
     <div
         aria-live="assertive"
-        class="pointer-events-none fixed inset-0 flex items-end px-4 py-6 sm:items-start sm:p-6">
+        class="pointer-events-none fixed inset-0 flex items-end px-4 py-6 sm:items-start sm:p-6 z-50">
         <div class="flex w-full flex-col items-center space-y-4 sm:items-end">
             <!-- 알림 패널, 표시해야 할 때 라이브 영역에 동적으로 삽입 -->
             <transition
@@ -19,13 +19,18 @@
                         <div class="flex items-start">
                             <div class="flex-shrink-0">
                                 <CheckCircleIcon
+                                    v-if="title == 'SUCCESS'"
                                     class="h-6 w-6 text-green-400"
+                                    aria-hidden="true" />
+                                <XCircleIcon
+                                    v-if="title == 'FAILED'"
+                                    class="h-6 w-6 text-red-500"
                                     aria-hidden="true" />
                             </div>
                             <div class="ml-3 w-0 flex-1 pt-0.5">
-                                <p class="text-sm font-medium text-gray-900">COPY!</p>
+                                <p class="text-sm font-medium text-gray-900">{{ title }}</p>
                                 <p class="mt-1 text-sm text-gray-500">
-                                    선택한 데이터를 클립보드에 복사하였습니다.
+                                    {{ description }}
                                 </p>
                             </div>
                             <div class="ml-4 flex flex-shrink-0">
@@ -48,7 +53,13 @@
 <script setup>
 import { ref } from 'vue';
 import { CheckCircleIcon } from '@heroicons/vue/24/outline';
+import { XCircleIcon } from '@heroicons/vue/24/outline';
 import { XMarkIcon } from '@heroicons/vue/20/solid';
 
-const show = ref(false);
+const show = ref(true);
+
+const props = defineProps({
+    title: String,
+    description: String,
+});
 </script>
