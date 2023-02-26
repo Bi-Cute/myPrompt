@@ -130,6 +130,7 @@ button {
     margin-top: 1rem;
 }
 .thumbnail-image__info {
+    display: none;
     height: auto;
     border: 2px solid black;
     background-color: rgba(255, 255, 255, 0.6);
@@ -137,7 +138,6 @@ button {
     padding: 1rem;
     font-size: 0.75rem;
     line-height: 1.3;
-    display: flex;
     flex-direction: column;
     justify-content: center;
 }
@@ -171,5 +171,10 @@ button {
     cursor: pointer;
     background-color: rgba(255, 255, 255, 0.1);
     border-radius: 0.5rem;
+}
+@media screen and (min-width: 640px) {
+    .thumbnail-image__info {
+        display: flex;
+    }
 }
 </style>
