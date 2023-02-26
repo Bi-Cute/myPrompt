@@ -3,30 +3,37 @@
     <div class="tag-check-box">
         <div class="w-full h-full overflow-auto relative">
             <div class="tag-check-box__header">
-                <div class="mb-2">
-                    <h3 class="font-bold">{{ mode }} Prompt</h3>
-                    <div class="flex justify-end gap-12">
-                        <div class="flex mb-2">
-                            <button
-                                class="border py-1 px-4 rounded-lg text-red-600 border-red-500"
-                                @click="clearPrompt">
-                                Clear
-                            </button>
-                        </div>
-                        <div class="flex gap-2 mb-2">
-                            <button
-                                class="border py-1 px-4 rounded-lg"
-                                :class="mode == 'Positive' ? 'bg-indigo-600 text-white' : null"
-                                @click="mode = 'Positive'">
-                                Positive
-                            </button>
-                            <button
-                                class="border py-1 px-4 rounded-lg"
-                                :class="mode == 'Negative' ? 'bg-indigo-600 text-white' : null"
-                                @click="mode = 'Negative'">
-                                Negative
-                            </button>
-                        </div>
+                <div class="flex justify-between mb-2">
+                    <h3 class="font-bold text-red">
+                        Most used
+                        <span
+                            class="font-bold text-xl"
+                            :class="{
+                                'text-indigo-600': mode === 'Positive',
+                                'text-red-500': mode === 'Negative',
+                            }">
+                            {{ mode }}
+                        </span>
+                        Prompt
+                    </h3>
+                    <div class="flex justify-end gap-2">
+                        <button
+                            class="border py-1 px-4 rounded-lg text-red-600 border-red-500"
+                            @click="clearPrompt">
+                            Clear
+                        </button>
+                        <button
+                            class="border py-1 px-4 rounded-lg"
+                            :class="mode == 'Positive' ? 'bg-indigo-600 text-white' : null"
+                            @click="mode = 'Positive'">
+                            Positive
+                        </button>
+                        <button
+                            class="border py-1 px-4 rounded-lg"
+                            :class="mode == 'Negative' ? 'bg-indigo-600 text-white' : null"
+                            @click="mode = 'Negative'">
+                            Negative
+                        </button>
                     </div>
                 </div>
             </div>
