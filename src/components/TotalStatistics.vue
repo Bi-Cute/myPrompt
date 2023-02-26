@@ -10,7 +10,7 @@
                 </p> -->
             </div>
             <div class="border-t border-gray-200 p-4">
-                <dl class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <dl class="grid grid-cols-1 gap-y-2 gap-x-4 sm:grid-cols-2">
                     <div class="sm:col-span-1">
                         <dt class="text-sm font-medium text-gray-500">Total Data</dt>
                         <dd class="mt-1 text-sm text-gray-900">{{ data.length }}</dd>
@@ -81,7 +81,7 @@ export default {
 .total-statistics {
     width: 100%;
     height: 12rem;
-    border: 1px solid black;
+    border: 4px solid black;
     border-radius: 1rem;
     overflow: hidden;
 }

@@ -180,7 +180,7 @@ export default {
 .tag-check-box {
     width: 100%;
     height: 32rem;
-    border: 1px solid black;
+    border: 4px solid black;
     border-radius: 1rem;
     padding: 1rem;
 }
